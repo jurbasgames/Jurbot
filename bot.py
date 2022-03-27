@@ -12,14 +12,11 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
+    
+    print(f'{client.user} is connected to the following guilds:\n')
     for guild in client.guilds:
-        if guild.name == GUILD:
-            break
+        print(f'{guild}\n')
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})\n'
-    )
 
 @client.event
 async def on_member_join(member):
@@ -37,6 +34,10 @@ async def on_message(message):
             await message.channel.send('Hoje definitivamente não é quarta-feira')
         else:
             await message.channel.send('Hoje é quarta-feira meus bacanos!!')
+
+@client.event
+async def on_message(message):
+    
 
 @client.event
 async def on_error(event, *args, **kwargs):

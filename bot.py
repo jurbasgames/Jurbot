@@ -1,25 +1,23 @@
 # bot.py
 import os
-import discord
+import requests
 from datetime import datetime
 from dotenv import load_dotenv
+from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
+client = commands.Bot(command_prefix='?')
 
 @client.event
 async def on_ready():
+    
+    print(f'{client.user} is connected to the following guilds:\n')
     for guild in client.guilds:
-        if guild.name == GUILD:
-            break
+        print(f'{guild}\n')
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})\n'
-    )
 
 @client.event
 async def on_member_join(member):
@@ -27,16 +25,19 @@ async def on_member_join(member):
     await member.dm_channel.send(
         f'{member.name}, bem-vindo ao {guild.name}!')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    
-    if 'dia' and 'hj' in message.content.lower():
-        if datetime.now().strftime('%A') != 'Wednesday':
-            await message.channel.send('Hoje definitivamente não é quarta-feira')
-        else:
-            await message.channel.send('Hoje é quarta-feira meus bacanos!!')
+@client.command()
+async def quarta(ctx):
+    if datetime.now().strftime('%A') != 'Wednesday':
+        await ctx.send('Hoje definitivamente não é quarta-feira meus bacanos')
+    else:
+        await ctx.send('Hoje é quarta-feira meus bacanos!!')
+
+
+@client.command()
+async def waifu(ctx):
+    image = requests.get(('https://api.waifu.pics/sfw/waifu'))
+    await ctx.send(f'{image.json()["url"]}')
+
 
 @client.event
 async def on_error(event, *args, **kwargs):

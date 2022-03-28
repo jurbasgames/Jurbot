@@ -3,12 +3,13 @@ import os
 import discord
 from datetime import datetime
 from dotenv import load_dotenv
+from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
+client = commands.Bot(command_prefix='?')
 
 @client.event
 async def on_ready():
@@ -24,20 +25,13 @@ async def on_member_join(member):
     await member.dm_channel.send(
         f'{member.name}, bem-vindo ao {guild.name}!')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    
-    if 'dia' and 'hj' in message.content.lower():
-        if datetime.now().strftime('%A') != 'Wednesday':
-            await message.channel.send('Hoje definitivamente não é quarta-feira')
-        else:
-            await message.channel.send('Hoje é quarta-feira meus bacanos!!')
+@client.command()
+async def quarta(ctx):
+    if datetime.now().strftime('%A') != 'Wednesday':
+        await ctx.send('Hoje definitivamente não é quarta-feira')
+    else:
+        await ctx.send('Hoje é quarta-feira meusx bacanos!!')
 
-@client.event
-async def on_message(message):
-    
 
 @client.event
 async def on_error(event, *args, **kwargs):

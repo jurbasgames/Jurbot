@@ -2,12 +2,11 @@
 import os
 import requests
 from datetime import datetime
-from dotenv import load_dotenv
 from discord.ext import commands
-
+from dotenv import load_dotenv
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+
+TOKEN = os.environ['DISCORD_TOKEN']
 
 client = commands.Bot(command_prefix='?')
 

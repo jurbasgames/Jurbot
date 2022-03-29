@@ -17,13 +17,6 @@ async def on_ready():
     for guild in client.guilds:
         print(f'{guild}\n')
 
-
-@client.event
-async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(
-        f'{member.name}, bem-vindo ao {guild.name}!')
-
 @client.command()
 async def quarta(ctx):
     if datetime.now().strftime('%A') != 'Wednesday':

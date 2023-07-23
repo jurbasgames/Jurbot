@@ -1,10 +1,10 @@
 # bot.py
 import os
-from zoneinfo import ZoneInfo
 import requests
 from datetime import datetime
 from discord.ext import commands
 from dotenv import load_dotenv
+import pytz
 load_dotenv()
 
 TOKEN = os.environ['DISCORD_TOKEN']
@@ -23,7 +23,9 @@ async def on_ready():
 
 @client.command()
 async def quarta(ctx):
-    if datetime.now(ZoneInfo("America/Sao_Paulo")).strftime('%A') != 'Wednesday':
+    sao_paulo_tz = pytz.timezone("America/Sao_Paulo")
+    now = datetime.now(sao_paulo_tz)
+    if now.strftime('%A') != 'Wednesday':
         await ctx.send('Hoje definitivamente não é quarta-feira meus bacanos')
     else:
         await ctx.send('Hoje é quarta-feira meus bacanos!!')

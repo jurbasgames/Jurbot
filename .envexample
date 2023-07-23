@@ -1,3 +1,4 @@
 # .env
 DISCORD_TOKEN = {your-bot-token}
 API_KEY = {your-unsplash-api-token}
+OPENAI_API_KEY = {your-openai-api-token}
